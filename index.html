@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurateur Potager en Parpaings</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+  <h1>Configurateur Potager</h1>
+  <p class="subtitle">Bacs en parpaings &mdash; calepinage automatique</p>
+</header>
+
+<main>
+  <!-- Configuration Panel -->
+  <section id="config-panel" class="panel">
+    <h2>Configuration</h2>
+
+    <div class="config-group">
+      <label>Forme</label>
+      <div class="btn-group" data-param="shape">
+        <button class="active" data-value="rect">Rectangulaire</button>
+        <button data-value="square">Carr&eacute;</button>
+      </div>
+    </div>
+
+    <div class="config-group">
+      <label>Mode</label>
+      <div class="btn-group" data-param="mode">
+        <button class="active" data-value="libre">Libre (4 murs)</button>
+        <button data-value="adosse">Adoss&eacute; (3 murs)</button>
+      </div>
+    </div>
+
+    <div class="config-group">
+      <label>Nombre de rangs</label>
+      <div class="btn-group" data-param="rows">
+        <button class="active" data-value="2">2 rangs (35 cm)</button>
+        <button data-value="3">3 rangs (55 cm)</button>
+      </div>
+    </div>
+
+    <div class="config-group">
+      <label>Longueur ext&eacute;rieure : <span id="length-value">200</span> cm</label>
+      <div class="slider-row">
+        <input type="range" id="length-slider" min="90" max="800" step="10" value="200">
+        <span id="length-badge" class="badge badge-green">0 coupe</span>
+      </div>
+    </div>
+
+    <div class="config-group" id="width-group">
+      <label>Largeur ext&eacute;rieure : <span id="width-value">120</span> cm</label>
+      <div class="slider-row">
+        <input type="range" id="width-slider" min="60" max="200" step="10" value="120">
+        <span id="width-badge" class="badge badge-green">0 coupe</span>
+      </div>
+    </div>
+
+    <button id="optimize-btn" class="btn-optimize">Optimiser z&eacute;ro coupe</button>
+
+    <div class="presets">
+      <h3>Tailles z&eacute;ro coupe</h3>
+      <div id="preset-buttons" class="preset-buttons"></div>
+    </div>
+  </section>
+
+  <!-- Results area -->
+  <section id="results-area">
+    <!-- Cut indicator -->
+    <div id="cut-indicator"></div>
+
+    <!-- SVG Calepinage -->
+    <div class="panel" id="calepinage-panel">
+      <h2>Calepinage</h2>
+      <div id="calepinage-tabs" class="tabs"></div>
+      <div id="svg-container"></div>
+      <div id="legend" class="legend">
+        <span class="legend-item"><span class="swatch swatch-std"></span> Bloc standard 50 cm</span>
+        <span class="legend-item"><span class="swatch swatch-cut"></span> Bloc coup&eacute;</span>
+        <span class="legend-item"><span class="swatch swatch-earth"></span> Terre</span>
+      </div>
+    </div>
+
+    <!-- Dimensions & Materials -->
+    <div class="panel" id="dimensions-panel">
+      <h2>Dimensions</h2>
+      <div id="dimensions-content"></div>
+    </div>
+
+    <div class="panel" id="materials-panel">
+      <h2>Mat&eacute;riaux</h2>
+      <div id="materials-content"></div>
+    </div>
+
+    <div class="panel" id="budget-panel">
+      <h2>Budget estim&eacute;</h2>
+      <div id="budget-content"></div>
+    </div>
+  </section>
+</main>
+
+<!-- Construction steps -->
+<section class="panel" id="steps-panel">
+  <h2>&Eacute;tapes de construction</h2>
+  <ol class="steps-list">
+    <li>
+      <strong>Tracer et d&eacute;caisser</strong>
+      <p>D&eacute;limiter l'emplacement et d&eacute;caisser sur 15 cm de profondeur. V&eacute;rifier les &eacute;querrages avec la r&egrave;gle du 3-4-5.</p>
+    </li>
+    <li>
+      <strong>Rang 1</strong>
+      <p>Poser les murs dominants d'abord (bord &agrave; bord ext&eacute;rieur), puis les murs &laquo; entre &raquo;. V&eacute;rifier le niveau et l'aplomb &agrave; chaque bloc. Joints de mortier de ~1 cm.</p>
+    </li>
+    <li>
+      <strong>Rang 2</strong>
+      <p>Les murs perpendiculaires deviennent dominants. Les joints verticaux doivent &ecirc;tre crois&eacute;s par rapport au rang 1 pour assurer la solidit&eacute;.</p>
+    </li>
+    <li>
+      <strong>Rang 3 (si applicable)</strong>
+      <p>M&ecirc;me alternance que le rang 1. V&eacute;rifier l'aplomb global.</p>
+    </li>
+    <li>
+      <strong>Enduit Parmurex</strong>
+      <p>Appliquer l'enduit d'&eacute;tanch&eacute;it&eacute; Parmurex sur les faces ext&eacute;rieures (~2 mm d'&eacute;paisseur). Laisser s&eacute;cher.</p>
+    </li>
+    <li>
+      <strong>G&eacute;otextile int&eacute;rieur</strong>
+      <p>Tapisser l'int&eacute;rieur de g&eacute;otextile pour retenir la terre. Si mode adoss&eacute; : placer aussi du polyane contre le mur existant pour prot&eacute;ger le cr&eacute;pi.</p>
+    </li>
+    <li>
+      <strong>Remplissage</strong>
+      <p>Remplir avec un m&eacute;lange terre v&eacute;g&eacute;tale / compost (60/40). Arroser pour tasser et compl&eacute;ter si n&eacute;cessaire.</p>
+    </li>
+  </ol>
+</section>
+
+<footer>
+  <p>Configurateur Potager en Parpaings &mdash; Tous les calculs sont indicatifs. V&eacute;rifiez toujours sur place.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
