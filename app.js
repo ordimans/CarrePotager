@@ -13,8 +13,8 @@
   const MAX_WIDTH = 200;
   const MIN_WIDTH = 60;
 
-  // Parmurex: 1.8 kg/m2 par mm d'epaisseur, application ~2 mm, exterieur uniquement
-  const PARMUREX_KG_PER_M2 = 1.8 * 2; // = 3.6 kg/m2
+  // Sous-enduit exterieur: 1.8 kg/m2 par mm d'epaisseur, application ~5 mm
+  const ENDUIT_KG_PER_M2 = 1.8 * 5; // = 9 kg/m2
 
   const state = {
     shape: 'rect',
@@ -28,7 +28,7 @@
   const PRICES = {
     blocStd: 1,
     mortarBag: 5,
-    parmurexBag: 10,
+    enduitBag: 10,
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -187,12 +187,12 @@
     const volumeTerre = surfaceCultivable * (heightUseful / 100);
     const volumeLitres = volumeTerre * 1000;
 
-    // Parmurex: exterieur uniquement, 1.8 kg/m2/mm, ~2mm
+    // Sous-enduit ext.: exterieur uniquement, 1.8 kg/m2/mm, ~2mm
     const perimeterExt = state.mode === 'adosse' ? (L + 2 * W) / 100 : (2 * (L + W)) / 100;
     const hm = (numRangs * 20) / 100;
     const surfaceExt = perimeterExt * hm;
-    const parmurexKg = surfaceExt * PARMUREX_KG_PER_M2;
-    const parmurexBags = Math.ceil(parmurexKg / 25);
+    const enduitKg = surfaceExt * ENDUIT_KG_PER_M2;
+    const enduitBags = Math.ceil(enduitKg / 25);
 
     // Mortier: ~1 cm joints. ~3.5 kg par bloc (horizontal + vertical)
     // Sac de 25 kg → ~7 blocs par sac
@@ -202,14 +202,14 @@
     const budget = {
       blocs: (totalStd + totalCuts + 2) * PRICES.blocStd,
       mortar: mortarBags * PRICES.mortarBag,
-      parmurex: parmurexBags * PRICES.parmurexBag,
+      parmurex: enduitBags * PRICES.enduitBag,
     };
     budget.total = Object.values(budget).reduce((a, b) => a + b, 0);
 
     return {
       L, W, T, intL, intW, heightUseful, surfaceCultivable, volumeTerre, volumeLitres,
       totalStd, totalCuts, cutDetails,
-      mortarBags, parmurexKg, parmurexBags, surfaceExt,
+      mortarBags, enduitKg, enduitBags, surfaceExt,
       budget, allRangs
     };
   }
@@ -465,8 +465,8 @@
         <div class="separator"></div>
         <span class="label">Mortier (sacs 25 kg, ~7 blocs/sac)</span>
         <span class="value">${data.mortarBags}</span>
-        <span class="label">Parmurex (sacs 25 kg)</span>
-        <span class="value">${data.parmurexBags} (${data.parmurexKg.toFixed(1)} kg pour ${data.surfaceExt.toFixed(1)} m&sup2;)</span>
+        <span class="label">Sous-enduit ext. (sacs 25 kg)</span>
+        <span class="value">${data.enduitBags} (${data.enduitKg.toFixed(1)} kg pour ${data.surfaceExt.toFixed(1)} m&sup2;)</span>
     `;
     html += '</div>';
     $('#materials-content').innerHTML = html;
@@ -477,7 +477,7 @@
     let html = '<div class="result-grid">';
     html += `<span class="label">Blocs (${data.totalStd + data.totalCuts + 2} &times; ${PRICES.blocStd.toFixed(2)} &euro;)</span><span class="value">${b.blocs.toFixed(2)} &euro;</span>`;
     html += `<span class="label">Mortier (${data.mortarBags} sacs)</span><span class="value">${b.mortar.toFixed(2)} &euro;</span>`;
-    html += `<span class="label">Parmurex (${data.parmurexBags} sacs)</span><span class="value">${b.parmurex.toFixed(2)} &euro;</span>`;
+    html += `<span class="label">Sous-enduit ext. (${data.enduitBags} sacs)</span><span class="value">${b.parmurex.toFixed(2)} &euro;</span>`;
     html += '<div class="separator"></div>';
     html += `<span class="label total">TOTAL estime (hors terre)</span><span class="value total">${b.total.toFixed(2)} &euro;</span>`;
     html += '</div>';
