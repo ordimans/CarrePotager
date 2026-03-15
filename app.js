@@ -6,8 +6,7 @@
 (function () {
   'use strict';
 
-  // Parpaing: 50 cm long, 20 cm haut, 25 cm large (epaisseur mur)
-  const THICKNESS = 25;
+  // Parpaing: 50 cm long, 20 cm haut, epaisseur variable (15, 20 ou 25 cm)
   const MAX_LENGTH = 1500;
   const MIN_LENGTH = 90;
   const MAX_WIDTH = 200;
@@ -19,6 +18,7 @@
   const state = {
     shape: 'rect',
     mode: 'libre',
+    thickness: 25,
     rows: 2,
     length: 200,
     width: 100,
@@ -57,7 +57,7 @@
   }
 
   function isZeroCutForMode(L, W, mode) {
-    const T = THICKNESS;
+    const T = state.thickness;
     const ewEntreLen = mode === 'adosse' ? W - T : W - 2 * T;
     return canDecomposeExact(L) && canDecomposeExact(W) &&
            canDecomposeExact(L - 2 * T) && canDecomposeExact(ewEntreLen);
@@ -130,7 +130,7 @@
 
   // --- Wall computation ---
   function computeRang(rangNum, L, W, mode) {
-    const T = THICKNESS;
+    const T = state.thickness;
     const isOdd = rangNum % 2 === 1;
     const walls = [];
 
@@ -157,7 +157,7 @@
   function computeTotals() {
     const L = state.length;
     const W = state.shape === 'square' ? L : state.width;
-    const T = THICKNESS;
+    const T = state.thickness;
     const numRangs = state.rows;
 
     let totalStd = 0, totalCuts = 0;
@@ -528,7 +528,7 @@
   // --- Update ---
   function update() {
     const W = state.shape === 'square' ? state.length : state.width;
-    const T = THICKNESS;
+    const T = state.thickness;
 
     lengthValue.textContent = state.length;
     widthValue.textContent = W;
@@ -566,6 +566,7 @@
         switch (param) {
           case 'shape': state.shape = val; break;
           case 'mode': state.mode = val; break;
+          case 'thickness': state.thickness = parseInt(val); break;
           case 'rows': state.rows = parseInt(val); break;
         }
         update();
