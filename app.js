@@ -8,7 +8,7 @@
 
   // Parpaing: 50 cm long, 20 cm haut, 25 cm large (epaisseur mur)
   const THICKNESS = 25;
-  const MAX_LENGTH = 800;
+  const MAX_LENGTH = 1500;
   const MIN_LENGTH = 90;
   const MAX_WIDTH = 200;
   const MIN_WIDTH = 60;
