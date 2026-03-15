@@ -340,13 +340,13 @@
         break;
       case 'west':
         x = ox;
-        y = wall.dominant ? oy : oy + T * scale;
+        y = wall.dominant ? oy : (state.mode === 'adosse' ? oy : oy + T * scale);
         dirX = 0; dirY = 1;
         bWidth = T * scale;
         break;
       case 'east':
         x = ox + (L - T) * scale;
-        y = wall.dominant ? oy : oy + T * scale;
+        y = wall.dominant ? oy : (state.mode === 'adosse' ? oy : oy + T * scale);
         dirX = 0; dirY = 1;
         bWidth = T * scale;
         break;
