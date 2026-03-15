@@ -474,7 +474,7 @@
         <span class="label">Mortier (sacs 25 kg, ~7 blocs/sac)</span>
         <span class="value">${data.mortarBags}</span>
         <span class="label">&nbsp;&nbsp;ou ciment 25 kg + sable (1:4)</span>
-        <span class="value">${data.cimentBags} sacs + ${data.sableLitres} L sable</span>
+        <span class="value">${data.cimentBags} sacs + ${data.sableLitres} L sable (~${Math.ceil(data.sableLitres / 10)} seaux)</span>
         <span class="label">Sous-enduit ext. (sacs 25 kg)</span>
         <span class="value">${data.enduitBags} (${data.enduitKg.toFixed(1)} kg pour ${data.surfaceExt.toFixed(1)} m&sup2;)</span>
     `;
