@@ -199,6 +199,13 @@
     const totalBlocks = totalStd + totalCuts;
     const mortarBags = Math.ceil(totalBlocks / 7);
 
+    // Equivalent ciment + sable (ratio 1:4 en poids)
+    const mortarTotalKg = mortarBags * 25;
+    const cimentKg = mortarTotalKg / 5;
+    const sableKg = mortarTotalKg * 4 / 5;
+    const cimentBags = Math.ceil(cimentKg / 25); // sacs de 25 kg
+    const sableLitres = Math.ceil(sableKg / 1.5); // densite sable ~1500 kg/m3
+
     const budget = {
       blocs: (totalStd + totalCuts + 2) * PRICES.blocStd,
       mortar: mortarBags * PRICES.mortarBag,
@@ -209,7 +216,8 @@
     return {
       L, W, T, intL, intW, heightUseful, surfaceCultivable, volumeTerre, volumeLitres,
       totalStd, totalCuts, cutDetails,
-      mortarBags, enduitKg, enduitBags, surfaceExt,
+      mortarBags, cimentBags, sableLitres,
+      enduitKg, enduitBags, surfaceExt,
       budget, allRangs
     };
   }
@@ -465,6 +473,8 @@
         <div class="separator"></div>
         <span class="label">Mortier (sacs 25 kg, ~7 blocs/sac)</span>
         <span class="value">${data.mortarBags}</span>
+        <span class="label">&nbsp;&nbsp;ou ciment 25 kg + sable (1:4)</span>
+        <span class="value">${data.cimentBags} sacs + ${data.sableLitres} L sable</span>
         <span class="label">Sous-enduit ext. (sacs 25 kg)</span>
         <span class="value">${data.enduitBags} (${data.enduitKg.toFixed(1)} kg pour ${data.surfaceExt.toFixed(1)} m&sup2;)</span>
     `;
