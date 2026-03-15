@@ -29,8 +29,6 @@
     blocStd: 1,
     mortarBag: 5,
     parmurexBag: 10,
-    geotextileRoll: 25,
-    bracket: 3
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -201,18 +199,10 @@
     const totalBlocks = totalStd + totalCuts;
     const mortarBags = Math.ceil(totalBlocks / 7);
 
-    // Geotextile (adosse)
-    const geotextileM2 = state.mode === 'adosse'
-      ? ((L / 100) * hm + surfaceCultivable)
-      : 0;
-    const brackets = state.mode === 'adosse' ? Math.ceil(L / 60) : 0;
-
     const budget = {
       blocs: (totalStd + totalCuts + 2) * PRICES.blocStd,
       mortar: mortarBags * PRICES.mortarBag,
       parmurex: parmurexBags * PRICES.parmurexBag,
-      geotextile: state.mode === 'adosse' ? PRICES.geotextileRoll : 0,
-      brackets: brackets * PRICES.bracket
     };
     budget.total = Object.values(budget).reduce((a, b) => a + b, 0);
 
@@ -220,7 +210,6 @@
       L, W, T, intL, intW, heightUseful, surfaceCultivable, volumeTerre, volumeLitres,
       totalStd, totalCuts, cutDetails,
       mortarBags, parmurexKg, parmurexBags, surfaceExt,
-      geotextileM2, brackets,
       budget, allRangs
     };
   }
@@ -479,15 +468,6 @@
         <span class="label">Parmurex (sacs 25 kg)</span>
         <span class="value">${data.parmurexBags} (${data.parmurexKg.toFixed(1)} kg pour ${data.surfaceExt.toFixed(1)} m&sup2;)</span>
     `;
-    if (state.mode === 'adosse') {
-      html += `
-        <div class="separator"></div>
-        <span class="label">Geotextile</span>
-        <span class="value">${data.geotextileM2.toFixed(1)} m&sup2;</span>
-        <span class="label">Equerres + chevilles</span>
-        <span class="value">${data.brackets}</span>
-      `;
-    }
     html += '</div>';
     $('#materials-content').innerHTML = html;
   }
@@ -498,10 +478,6 @@
     html += `<span class="label">Blocs (${data.totalStd + data.totalCuts + 2} &times; ${PRICES.blocStd.toFixed(2)} &euro;)</span><span class="value">${b.blocs.toFixed(2)} &euro;</span>`;
     html += `<span class="label">Mortier (${data.mortarBags} sacs)</span><span class="value">${b.mortar.toFixed(2)} &euro;</span>`;
     html += `<span class="label">Parmurex (${data.parmurexBags} sacs)</span><span class="value">${b.parmurex.toFixed(2)} &euro;</span>`;
-    if (state.mode === 'adosse') {
-      html += `<span class="label">Geotextile (1 rouleau)</span><span class="value">${b.geotextile.toFixed(2)} &euro;</span>`;
-      html += `<span class="label">Equerres (${data.brackets})</span><span class="value">${b.brackets.toFixed(2)} &euro;</span>`;
-    }
     html += '<div class="separator"></div>';
     html += `<span class="label total">TOTAL estime (hors terre)</span><span class="value total">${b.total.toFixed(2)} &euro;</span>`;
     html += '</div>';
